@@ -78,13 +78,14 @@ module MyEnumerable
 		count
 	end
 
-	def my_map collection
+	def my_map collection, proc = Proc.new {}
 		container = collection.class.new
 		my_each(collection) do |key, value|
-			if yield(key,value)
-				container.push yield(key,value) if container.class == Array
-				container[key] = yield(key,value) if container.class == Hash
-			end
+			value_to_replace = proc.call(key,value)
+			value_to_replace ||= yield(key, value)
+			
+			container.push value_to_replace if container.class == Array
+			container[key] = value_to_replace if container.class == Hash
 		end
 		container
 	end
@@ -128,7 +129,9 @@ p my_none?(hash) {|k,v| k== "two" }
 p my_count(array) { |i| i%2 == 0 }
 p my_count(hash) {|k,v| k== "two" }
 
-p my_map(array){|num| num**2 }
+proc = Proc.new {|num| num**2 }
+
+p my_map(array, proc) {|num| num+2 }
 p my_map(hash){|k,v| v+"yolo" }
 
 p my_inject(array,1){|num,element| num*=element }
