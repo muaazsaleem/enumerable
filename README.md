@@ -7,5 +7,9 @@ Methods include:
 - my_select
 - my_all?
 - my_none?
+- my_count
+- my_map
+- my_inject
+
 
 via [The Odin Project](http://theodinproject.com)
