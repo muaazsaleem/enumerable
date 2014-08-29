@@ -32,7 +32,24 @@ module Enumerable
 		
 	end
 
+
+
+	def my_select collection
+		container = collection.class.new
+		my_each(collection) do |key, value|
+			if yield(key,value)
+				container.push key if container.class == Array
+				container[key] = value if container.class == Hash
+			end
+		end
+		container
+	end
 end
+
+
+
+
+
 include Enumerable
 array = [1,2,3]
 hash = {"one" => "uno", "two" => "dos", "three" => "tres"}
@@ -43,3 +60,6 @@ my_each_with_index(array) {|c,i| puts "#{c} : #{i}"}
 
 my_each_with_index(hash) {|key, value, i| 
 	puts "#{i.to_s} - #{key}: #{value}"}
+
+p my_select(array){ |i| i%2 == 0 }
+p my_select(hash){|k,v| k== "two" }
