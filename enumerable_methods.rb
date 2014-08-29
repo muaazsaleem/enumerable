@@ -19,12 +19,13 @@ module Enumerable
 			collection.length.times do |i|
 				yield collection[i],i
 			end
+		
 		elsif collection.class == Hash
 			keys = collection.keys
 			keys.size.times do |i|
 				key = keys[i]
 				value = collection[keys[i]]
-
+				
 				yield(key, value, i)
 			end
 		end
@@ -33,14 +34,12 @@ module Enumerable
 
 end
 include Enumerable
+array = [1,2,3]
+hash = {"one" => "uno", "two" => "dos", "three" => "tres"}
+my_each(array) {|c| puts c}
+my_each (hash) {|key, value| puts "#{key}: #{value}"}
 
-my_each [1,2,3] {|c| puts c}
-my_each ({"one" => "uno",
-"two" => "dos",
-"three" => "tres"}) {|key, value| puts "#{key}: #{value}"}
+my_each_with_index(array) {|c,i| puts "#{c} : #{i}"}
 
-my_each_with_index [1,2,3] {|c,i| puts "#{c} : #{i}"}
-
-my_each ({"one" => "uno",
-"two" => "dos",
-"three" => "tres"}) {|key, value, i| puts "#{i.to_s} - #{key}: #{value}"}
+my_each_with_index(hash) {|key, value, i| 
+	puts "#{i.to_s} - #{key}: #{value}"}
