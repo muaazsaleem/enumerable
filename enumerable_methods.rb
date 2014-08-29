@@ -44,6 +44,17 @@ module Enumerable
 		end
 		container
 	end
+
+	def my_all? collection
+		bool = true
+		
+		my_each(collection) do |key, value|
+			if  !yield(key,value)
+				bool = false
+			end
+		end
+		bool
+	end
 end
 
 
@@ -63,3 +74,6 @@ my_each_with_index(hash) {|key, value, i|
 
 p my_select(array){ |i| i%2 == 0 }
 p my_select(hash){|k,v| k== "two" }
+
+p my_all?(array){ |i| i%2 == 0 }
+p my_all?(hash){|k,v| k== "two" }
